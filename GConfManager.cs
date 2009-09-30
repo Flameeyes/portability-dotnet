@@ -31,7 +31,8 @@ namespace Portability
 		{
 			base_app_path = String.Format("/apps/{0}/{1}/",
 			                              Utils.CompanyName,
-			                              Utils.ProductName);
+			                              Utils.ProductName).
+				Replace(' ', '_').Replace('.', '-');
 		}
 
 		protected object GetObject(string setting)
