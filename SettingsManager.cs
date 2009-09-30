@@ -32,7 +32,16 @@ namespace Portability
 		static public SettingsManager Get() {
 			switch(System.Environment.OSVersion.Platform) {
 			case PlatformID.Unix:
-				return new GConfManager();
+				try {
+					return new GConfManager();
+				} catch(DllNotFoundException) {
+					/* We might not have gnome, and thus GConf, available.
+					 * But we don't want to fail in that case either so we
+					 * decide to go with the Mono emulation of the registry
+					 * instead (which is bad, but it works).
+					 */
+					return new RegistryManager();
+				}
 			default:
 				return new RegistryManager();
 			}
