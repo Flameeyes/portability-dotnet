@@ -35,7 +35,6 @@ namespace Portability
 
 			if (!System.IO.Directory.Exists(_cachedir))
 				System.IO.Directory.CreateDirectory(_cachedir);
-
 		}
 
 		public static string CacheDir
@@ -47,5 +46,42 @@ namespace Portability
 				return _cachedir;
 			}
 		}
+
+		private static string _permanentdir = null;
+
+		private static void MakePermanentDataDir()
+		{
+			switch(System.Environment.OSVersion.Platform) {
+			case PlatformID.Win32NT:
+		        _permanentdir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				break;
+			case PlatformID.Unix:
+				_permanentdir = Environment.GetEnvironmentVariable("XDG_DATA_HOME");
+				if ( _permanentdir == null || _permanentdir.Length == 0 )
+					_permanentdir = System.IO.Path.Combine(HomeDir(), ".local/share/");
+				break;
+			case PlatformID.MacOSX:
+				_permanentdir = System.IO.Path.Combine(HomeDir(), "Library\\Application Support");
+				break;
+			default:
+				throw new System.Exception("Unsupported operating system");
+			}
+
+			_permanentdir = Path.Combine(_permanentdir, Path.Combine(Utils.CompanyName, Utils.ProductName));
+
+			if (!System.IO.Directory.Exists(_permanentdir))
+				System.IO.Directory.CreateDirectory(_permanentdir);
+		}
+
+		public static string PermanentDataDir
+		{
+			get {
+				if ( _permanentdir == null )
+					MakePermanentDataDir();
+
+				return _permanentdir;
+			}
+		}
+
 	}
 }
