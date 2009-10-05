@@ -6,13 +6,33 @@ namespace Portability
 {
 	public static class Paths
 	{
+		private static string _productpath = Path.Combine(Utils.CompanyName, Utils.ProductName);
+		private static string CombineCreateProductDir(string basedir)
+		{
+			string result = Path.Combine(basedir, _productpath);
+			if ( !Directory.Exists(result) )
+				Directory.CreateDirectory(result);
+
+			return result;
+		}
+
+		private static string GenericDataFile(string basedir, string filepath)
+		{
+			string full_file_path = Path.Combine(basedir, filename);
+			string full_path_base = Path.GetDirectoryName(full_file_path);
+			if ( ! Directory.Exists(full_path_base) )
+				Directory.CreateDirectory(full_path_base);
+
+			return full_file_path;
+		}
+
 		public static string HomeDir()
 		{
 			return Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		}
 
 		private static string _cachedir = null;
-		
+
 		private static void MakeCacheDir()
 		{
 			switch(System.Environment.OSVersion.Platform) {
@@ -31,10 +51,7 @@ namespace Portability
 				throw new System.Exception("Unsupported operating system");
 			}
 
-			_cachedir = Path.Combine(_cachedir, Path.Combine(Utils.CompanyName, Utils.ProductName));
-
-			if (!System.IO.Directory.Exists(_cachedir))
-				System.IO.Directory.CreateDirectory(_cachedir);
+			_cachedir = CombineCreateProductDir(_cachedir);
 		}
 
 		public static string CacheDir
@@ -67,10 +84,7 @@ namespace Portability
 				throw new System.Exception("Unsupported operating system");
 			}
 
-			_permanentdir = Path.Combine(_permanentdir, Path.Combine(Utils.CompanyName, Utils.ProductName));
-
-			if (!System.IO.Directory.Exists(_permanentdir))
-				System.IO.Directory.CreateDirectory(_permanentdir);
+			_permanentdir = CombineCreateProductDir(_permanentdir);
 		}
 
 		public static string PermanentDataDir
@@ -85,13 +99,7 @@ namespace Portability
 
 		public static string PermanentDataFile(string filename)
 		{
-			string full_file_path = Path.Combine(PermanentDataDir, filename);
-			string full_path_base = Path.GetDirectoryName(full_file_path);
-			if ( ! Directory.Exists(full_path_base) )
-				Directory.CreateDirectory(full_path_base);
-
-			return full_file_path;
+			return GenericDataFile(PermanentDataDir, filename);
 		}
-
 	}
 }
