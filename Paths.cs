@@ -18,7 +18,7 @@ namespace Portability
 
 		private static string GenericDataFile(string basedir, string filepath)
 		{
-			string full_file_path = Path.Combine(basedir, filename);
+			string full_file_path = Path.Combine(basedir, filepath);
 			string full_path_base = Path.GetDirectoryName(full_file_path);
 			if ( ! Directory.Exists(full_path_base) )
 				Directory.CreateDirectory(full_path_base);

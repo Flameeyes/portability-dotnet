@@ -1,6 +1,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace Portability
 {
@@ -30,11 +31,11 @@ namespace Portability
 		{
 			int copied = 0;
 			/* We cannot use unknown-length this way :( */
-			int input_length = input.Length;
+			long input_length = input.Length;
 
 			while(input.CanRead)
 			{
-				int tocopy = (input_length > (4096 * 1024)) ? 4096 * 1024 : input_length;
+				int tocopy = (input_length > StreamCopyBlockSize) ? StreamCopyBlockSize : (int)input_length;
 				byte[] tmpbuff = new byte[tocopy];
 				int read = input.Read(tmpbuff, copied, tocopy);
 				output.Write(tmpbuff, copied, read);
