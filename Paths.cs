@@ -31,6 +31,21 @@ namespace Portability
 			return Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		}
 
+		private static string _programdir;
+		public static string ProgramDir
+		{
+			get
+			{
+				if ( _programdir == null )
+				{
+					System.Reflection.Assembly a = System.Reflection.Assembly.GetEntryAssembly();
+					_programdir = System.IO.Path.GetDirectoryName(a.Location);
+				}
+
+				return _programdir;
+			}
+		}
+
 		private static string _cachedir = null;
 
 		private static void MakeCacheDir()
