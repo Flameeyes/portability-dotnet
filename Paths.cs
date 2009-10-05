@@ -121,5 +121,33 @@ namespace Portability
 		{
 			return GenericDataFile(PermanentDataDir, filename);
 		}
+
+		private static string[] _executable_paths;
+		public static string[] ExecutablesPaths
+		{
+			get {
+				if ( _executable_paths == null ) {
+					_executable_paths = Environment.
+						GetEnvironmentVariable("PATH").
+							Split(Environment.OSVersion.Platform == PlatformID.Win32NT ? ';' : ':');
+				}
+
+				return _executable_paths;
+			}
+		}
+
+		public static string FindExecutable(string execname)
+		{
+			if ( Environment.OSVersion.Platform == PlatformID.Win32NT )
+				execname = execname + ".exe";
+
+			foreach ( string dir in ExecutablesPaths ) {
+				string execpath = Path.Combine(dir, execname);
+				if ( File.Exists( execpath ) )
+					return execpath;
+			}
+
+			throw new FileNotFoundException("Unable to find executable", execname);
+		}
 	}
 }
