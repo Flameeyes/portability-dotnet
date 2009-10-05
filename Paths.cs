@@ -79,6 +79,11 @@ namespace Portability
 			}
 		}
 
+		public static string CacheFile(string filepath)
+		{
+			return GenericDataFile(CacheDir, filepath);
+		}
+
 		private static string _permanentdir = null;
 
 		private static void MakePermanentDataDir()
