@@ -83,5 +83,15 @@ namespace Portability
 			}
 		}
 
+		public static string PermanentDataFile(string filename)
+		{
+			string full_file_path = Path.Combine(PermanentDataDir, filename);
+			string full_path_base = Path.GetDirectoryName(full_file_path);
+			if ( ! Directory.Exists(full_path_base) )
+				Directory.CreateDirectory(full_path_base);
+
+			return full_file_path;
+		}
+
 	}
 }
