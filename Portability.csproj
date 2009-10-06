@@ -36,12 +36,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="SettingsManager.cs" />
-    <Compile Include="GConfManager.cs" />
-    <Compile Include="RegistryManager.cs" />
-    <Compile Include="Paths.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Sources\AssemblyInfo.cs" />
+    <Compile Include="Sources\GConfManager.cs" />
+    <Compile Include="Sources\Paths.cs" />
+    <Compile Include="Sources\RegistryManager.cs" />
+    <Compile Include="Sources\SettingsManager.cs" />
+    <Compile Include="Sources\Utils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Sources\" />
+  </ItemGroup>
 </Project>
