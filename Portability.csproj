@@ -40,6 +40,7 @@
     <Compile Include="SettingsManager.cs" />
     <Compile Include="GConfManager.cs" />
     <Compile Include="RegistryManager.cs" />
+    <Compile Include="Paths.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
