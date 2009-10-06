@@ -56,7 +56,11 @@ namespace PortableSettings
 
 		public override string GetString (params string[] setting)
 		{
-			return key.GetValue(joinval(setting), null).ToString();
+			try {
+				return key.GetValue(joinval(setting), null).ToString();
+			} catch ( Exception ) {
+				return null;
+			}
 		}
 
 		public override void SetString (string val, params string[] setting)
