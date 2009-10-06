@@ -35,10 +35,12 @@ namespace PortableSettings
 		 * @param softwareid A list of strings to identify the software (like "eu", "flameeyes", "mysoftware")
 		 */
 		static public Manager GetSystemManager(params string[] softwareid) {
-			if ( System.Reflection.Assembly.GetEntryAssembly().Location[0] == '/' )
+			switch(System.Environment.OSVersion.Platform) {
+			case PlatformID.Unix:
 				return new GConfManager(softwareid);
-			else
+			default:
 				return new RegistryManager(softwareid);
+			}
 		}
 
 		public abstract string GetString(params string[] setting);
