@@ -7,7 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{15E4AB18-EF9D-4DFB-BE27-074A3410F2F3}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>libportablesettings</AssemblyName>
+    <AssemblyName>Portability</AssemblyName>
+    <RootNamespace>Portability</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,7 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Manager.cs" />
+    <Compile Include="SettingsManager.cs" />
     <Compile Include="GConfManager.cs" />
     <Compile Include="RegistryManager.cs" />
   </ItemGroup>

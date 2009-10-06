@@ -20,36 +20,21 @@
 using System;
 using System.Collections.Generic;
 
-namespace PortableSettings
+namespace Portability
 {
-	public class GConfManager : Manager
+	public class GConfManager : SettingsManager
 	{
 		protected GConf.Client client = new GConf.Client();
 		protected string base_app_path;
 
-		static protected string joinpath(string[] array, bool stripslash)
+		public GConfManager(string softwareid)
 		{
-			string retval = "";
-
-			foreach(string component in array)
-			{
-				retval += component + "/";
-			}
-
-			if ( stripslash )
-				retval = retval.TrimEnd('/');
-
-			return retval;
+			base_app_path = "/apps/" +  softwareid.Replace('.', '/');
 		}
 
-		public GConfManager(string[] softwareid)
+		protected object GetObject(string setting)
 		{
-			base_app_path = "/apps/" + joinpath(softwareid, false);
-		}
-
-		protected object GetObject(string[] setting)
-		{
-			string setting_path = base_app_path + joinpath(setting, true);
+			string setting_path = base_app_path + setting.Replace('.', '/');
 
 			try {
 				return client.Get(setting_path);
@@ -58,14 +43,14 @@ namespace PortableSettings
 			}
 		}
 
-		public override string GetString (params string[] setting)
+		public override string GetString (string setting)
 		{
 			return (string)GetObject(setting);
 		}
 
-		public override void SetString (string val, params string[] setting)
+		public override void SetString (string setting, string val)
 		{
-			string setting_path = base_app_path + joinpath(setting, true);
+			string setting_path = base_app_path + setting.Replace('.', '/');
 
 			client.Set(setting_path, val);
 		}

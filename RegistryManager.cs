@@ -20,52 +20,29 @@
 using System;
 using Microsoft.Win32;
 
-namespace PortableSettings
+namespace Portability
 {
-
-
-	public class RegistryManager : Manager
+	public class RegistryManager : SettingsManager
 	{
 		protected RegistryKey key;
 
-		public RegistryManager(string[] softwareid)
+		public RegistryManager(string softwareid)
 		{
-			string company = String.Format("{0}.{1}", softwareid[0], softwareid[1]);
-			string productname = softwareid[2];
-
-			for (int i = 3; i < softwareid.Length; i++)
-				productname += String.Format(".{0}", softwareid[i]);
-
-			key = Registry.CurrentUser.CreateSubKey(String.Format("SOFTWARE/{0}/{1}",
-			                                                      company, productname));
+			key = Registry.CurrentUser.CreateSubKey("SOFTWARE/" + softwareid);
 		}
 
-		static protected string joinval(string[] array)
-		{
-			string retval = "";
-
-			foreach(string component in array)
-			{
-				retval += component + '.';
-			}
-
-			retval = retval.TrimEnd('.');
-
-			return retval;
-		}
-
-		public override string GetString (params string[] setting)
+		public override string GetString (string setting)
 		{
 			try {
-				return key.GetValue(joinval(setting), null).ToString();
+				return key.GetValue(setting, null).ToString();
 			} catch ( Exception ) {
 				return null;
 			}
 		}
 
-		public override void SetString (string val, params string[] setting)
+		public override void SetString (string setting, string val)
 		{
-			key.SetValue(joinval(setting), val, RegistryValueKind.String);
+			key.SetValue(setting, val, RegistryValueKind.String);
 		}
 	}
 }

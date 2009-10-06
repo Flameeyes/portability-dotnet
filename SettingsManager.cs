@@ -19,22 +19,22 @@
 
 using System;
 
-namespace PortableSettings
+namespace Portability
 {
 
 
-	public abstract class Manager
+	public abstract class SettingsManager
 	{
-		protected Manager()
+		protected SettingsManager()
 		{
 		}
 
 		/**
 		 * @brief Gets the best manager for the running system (registry, gconf, plist, ...)
 		 *
-		 * @param softwareid A list of strings to identify the software (like "eu", "flameeyes", "mysoftware")
+		 * @param softwareid A dotted form of the software id (e.g.: eu.flameeyes.myproject)
 		 */
-		static public Manager GetSystemManager(params string[] softwareid) {
+		static public SettingsManager Get(string softwareid) {
 			switch(System.Environment.OSVersion.Platform) {
 			case PlatformID.Unix:
 				return new GConfManager(softwareid);
@@ -43,7 +43,7 @@ namespace PortableSettings
 			}
 		}
 
-		public abstract string GetString(params string[] setting);
-		public abstract void SetString(string val, params string[] setting);
+		public abstract string GetString(string setting);
+		public abstract void SetString(string setting, string val);
 	}
 }
