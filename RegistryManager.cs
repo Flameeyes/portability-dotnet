@@ -26,9 +26,11 @@ namespace Portability
 	{
 		protected RegistryKey key;
 
-		public RegistryManager(string softwareid)
+		public RegistryManager()
 		{
-			key = Registry.CurrentUser.CreateSubKey("SOFTWARE/" + softwareid);
+			key = Registry.CurrentUser.CreateSubKey(String.Format("SOFTWARE/{0}/{1}",
+			                                                      Utils.CompanyName,
+			                                                      Utils.ProductName));
 		}
 
 		public override string GetString (string setting)

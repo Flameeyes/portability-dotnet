@@ -29,17 +29,12 @@ namespace Portability
 		{
 		}
 
-		/**
-		 * @brief Gets the best manager for the running system (registry, gconf, plist, ...)
-		 *
-		 * @param softwareid A dotted form of the software id (e.g.: eu.flameeyes.myproject)
-		 */
-		static public SettingsManager Get(string softwareid) {
+		static public SettingsManager Get() {
 			switch(System.Environment.OSVersion.Platform) {
 			case PlatformID.Unix:
-				return new GConfManager(softwareid);
+				return new GConfManager();
 			default:
-				return new RegistryManager(softwareid);
+				return new RegistryManager();
 			}
 		}
 

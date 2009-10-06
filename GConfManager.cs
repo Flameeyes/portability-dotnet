@@ -27,9 +27,11 @@ namespace Portability
 		protected GConf.Client client = new GConf.Client();
 		protected string base_app_path;
 
-		public GConfManager(string softwareid)
+		public GConfManager()
 		{
-			base_app_path = "/apps/" +  softwareid.Replace('.', '/');
+			base_app_path = String.Format("/apps/{0}/{1}/",
+			                              Utils.CompanyName,
+			                              Utils.ProductName);
 		}
 
 		protected object GetObject(string setting)
