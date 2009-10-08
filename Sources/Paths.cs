@@ -26,9 +26,9 @@ namespace Portability
 			return result;
 		}
 
-		private static string GenericDataFile(string basedir, string filepath)
+		private static string GenericDataFile(string basedir, string[] filepath)
 		{
-			string full_file_path = Path.Combine(basedir, filepath);
+			string full_file_path = Path.Combine(basedir, CombineMultiple(filepath));
 			string full_path_base = Path.GetDirectoryName(full_file_path);
 			if ( ! Directory.Exists(full_path_base) )
 				Directory.CreateDirectory(full_path_base);
@@ -89,7 +89,7 @@ namespace Portability
 			}
 		}
 
-		public static string CacheFile(string filepath)
+		public static string CacheFile(params string[] filepath)
 		{
 			return GenericDataFile(CacheDir, filepath);
 		}
@@ -127,9 +127,9 @@ namespace Portability
 			}
 		}
 
-		public static string PermanentDataFile(string filename)
+		public static string PermanentDataFile(params string[] filepath)
 		{
-			return GenericDataFile(PermanentDataDir, filename);
+			return GenericDataFile(PermanentDataDir, filepath);
 		}
 
 		private static string[] _executable_paths;
