@@ -6,6 +6,16 @@ namespace Portability
 {
 	public static class Paths
 	{
+		public static string CombineMultiple(params string[] segments)
+		{
+			string combined = "";
+
+			foreach(string segment in segments)
+				combined = Path.Combine(combined, segment);
+
+			return combined;
+		}
+
 		private static string _productpath = Path.Combine(Utils.CompanyName, Utils.ProductName);
 		private static string CombineCreateProductDir(string basedir)
 		{
@@ -57,10 +67,10 @@ namespace Portability
 			case PlatformID.Unix:
 				_cachedir = Environment.GetEnvironmentVariable("XDG_CACHE_HOME");
 				if ( _cachedir == null || _cachedir.Length == 0 )
-					_cachedir = System.IO.Path.Combine(HomeDir(), ".cache");
+					_cachedir = CombineMultiple(HomeDir(), ".cache");
 				break;
 			case PlatformID.MacOSX:
-				_cachedir = System.IO.Path.Combine(HomeDir(), "Library\\Caches");
+				_cachedir = CombineMultiple(HomeDir(), "Library", "Caches");
 				break;
 			default:
 				throw new System.Exception("Unsupported operating system");
@@ -95,10 +105,10 @@ namespace Portability
 			case PlatformID.Unix:
 				_permanentdir = Environment.GetEnvironmentVariable("XDG_DATA_HOME");
 				if ( _permanentdir == null || _permanentdir.Length == 0 )
-					_permanentdir = System.IO.Path.Combine(HomeDir(), ".local/share/");
+					_permanentdir = CombineMultiple(HomeDir(), ".local", "share");
 				break;
 			case PlatformID.MacOSX:
-				_permanentdir = System.IO.Path.Combine(HomeDir(), "Library\\Application Support");
+				_permanentdir = CombineMultiple(HomeDir(), "Library", "Application Support");
 				break;
 			default:
 				throw new System.Exception("Unsupported operating system");
