@@ -22,19 +22,5 @@ namespace Portability
 
 		public static string ProductName
 		{ get { return _product.Product; } }
-
-		public static void StreamCopy(Stream input, Stream output)
-		{
-			int copied = 0;
-
-			while(input.CanRead)
-			{
-				byte[] tmpbuff = new byte[4096];
-				int read = input.Read(tmpbuff, copied, 4096);
-				output.Write(tmpbuff, copied, read);
-
-				copied += read;
-			}
-		}
 	}
 }
