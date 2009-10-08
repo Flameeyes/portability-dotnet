@@ -29,19 +29,34 @@ namespace Portability
 
 		public static void StreamCopy(Stream input, Stream output)
 		{
+			int length = -1;
+
+			try {
+				length = (int)input.Length;
+			} catch (NotSupportedException) {
+				/* If we came here it means that we have no way
+				 * to get the input length */
+			}
+
+			StreamCopy(input, output, length);
+		}
+
+		public static void StreamCopy(Stream input, Stream output, int input_length)
+		{
 			int copied = 0;
-			/* We cannot use unknown-length this way :( */
-			long input_length = input.Length;
 
 			while(input.CanRead)
 			{
-				int tocopy = (input_length > StreamCopyBlockSize) ? StreamCopyBlockSize : (int)input_length;
+				int tocopy = (input_length > StreamCopyBlockSize) ? StreamCopyBlockSize : input_length;
 				byte[] tmpbuff = new byte[tocopy];
 				int read = input.Read(tmpbuff, copied, tocopy);
 				output.Write(tmpbuff, copied, read);
 
 				copied += read;
-				input_length -= read;
+
+				/* We don't have to care when input_length == -1. */
+				if ( input_length != -1 )
+					input_length -= read;
 			}
 		}
 	}
